@@ -18,9 +18,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primaryV1,
     borderRadius: 25,
     alignItems: "center",
+    alignSelf: "center",
     padding: 10,
-    width: "100%",
-    marginTop: 20,
+    width: "80%",
+    marginTop: 15,
   },
   text: {
     color: "white",

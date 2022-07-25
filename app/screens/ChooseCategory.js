@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   container: {
-    top: 10,
+    height: "40%",
+    top: 25,
   },
 });
 export default ChooseCategory;
