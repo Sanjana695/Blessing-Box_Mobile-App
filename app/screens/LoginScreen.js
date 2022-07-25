@@ -54,7 +54,7 @@ function LoginScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 100,
+    marginTop: 50,
   },
   login: {
     fontSize: 40,
@@ -62,10 +62,11 @@ const styles = StyleSheet.create({
     color: colors.primaryV1,
   },
   logo: {
-    width: 500,
-    height: 200,
-    alignItems: "center",
-    justifyContent: "center",
+    width: 200,
+    height: 250,
+    // alignItems: "center",
+    // justifyContent: "center",
+    alignSelf: "center",
   },
 });
 export default LoginScreen;

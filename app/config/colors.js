@@ -1,6 +1,6 @@
 const Color = {
   primaryV1: "rgb(42, 5, 143)", //blue
-  secondaryV1: "#2f4e71", //hover
+  secondaryV1: "rgba(60, 35, 131, 0.8)", //hover
   tertiaryV1: "#172a340", //btn click
 
   primaryV2: "#EB2188", //pink
