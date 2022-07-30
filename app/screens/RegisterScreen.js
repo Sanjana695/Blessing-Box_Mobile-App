@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
+import Divider from "react-native-divider";
 
 import AppFormField from "../components/forms/AppFormField";
 import AppForm from "../components/forms/AppForm";
@@ -19,8 +20,15 @@ const validationSchema = Yup.object().shape({
 function RegisterScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.signup}>Sign Up as Donor</Text>
-
+      <Divider orientation="center">
+        <Text style={styles.signup}>Sign Up</Text>
+      </Divider>
+      <Image
+        source={require("../assets/registration.png")}
+        alt="registration.png"
+        style={styles.registerPic}
+        resizeMode="cover"
+      />
       <AppForm
         initialValues={{
           name: "",
@@ -70,7 +78,7 @@ function RegisterScreen() {
         <AppFormField
           autoCapitalize="none"
           autoCorrect={false}
-          keyboradType="numeric"
+          keyboardType="numeric"
           icon={false}
           name="number"
           placeholder="Enter Number"
@@ -85,7 +93,7 @@ function RegisterScreen() {
           placeholder="Enter Designation"
         />
 
-        <SubmitButton title="Register" color={colors.primaryV1} width="100%" />
+        <SubmitButton title="Register" color={colors.primaryV1} width="80%" />
       </AppForm>
     </View>
   );
@@ -93,13 +101,19 @@ function RegisterScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
+    // marginTop: 30,
   },
   signup: {
-    fontSize: 40,
+    fontSize: 20,
+    fontWeight: "bold",
+    color: colors.primaryV2,
+  },
+  registerPic: {
+    width: 200,
+    height: 150,
+    // alignItems: "center",
+    // justifyContent: "center",
     alignSelf: "center",
-    marginTop: 50,
-    color: colors.priamryV1,
   },
 });
 export default RegisterScreen;

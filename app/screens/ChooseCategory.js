@@ -1,33 +1,48 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  TouchableHighlight,
+} from "react-native";
 import AppText from "../components/AppText";
 import Card from "../components/Card";
 import colors from "../config/colors";
+
 function ChooseCategory() {
+  const navigation = useNavigation();
   return (
     <>
       <View style={styles.container}>
         <AppText style={styles.heading}>
           Choose, where you want to donate
         </AppText>
-        <Card
-          title="Orphanage"
-          subTitle="1000 Rupees Donated"
-          image={require("../assets/orphanage1.png")}
-        />
 
-        <Card
-          title="Food"
-          subTitle="1000 Rupees Donated"
-          image={require("../assets/food1.png")}
-          flexDirection="row-reverse"
-        />
+        <TouchableOpacity onPress={() => navigation.navigate("DisplayNGOs")}>
+          <Card
+            title="Orphanage"
+            subTitle="1000 Rupees Donated"
+            image={require("../assets/orphanage1.png")}
+          />
+        </TouchableOpacity>
 
-        <Card
-          title="Education"
-          subTitle="1000 Rupees Donated"
-          image={require("../assets/education1.png")}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate("DisplayNGOs")}>
+          <Card
+            title="Food"
+            subTitle="1000 Rupees Donated"
+            image={require("../assets/food1.png")}
+            flexDirection="row-reverse"
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate("DisplayNGOs")}>
+          <Card
+            title="Education"
+            subTitle="1000 Rupees Donated"
+            image={require("../assets/education1.png")}
+          />
+        </TouchableOpacity>
       </View>
     </>
   );
@@ -40,7 +55,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   container: {
-    height: "40%",
+    height: "35%",
     top: 25,
   },
 });

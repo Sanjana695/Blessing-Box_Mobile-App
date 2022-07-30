@@ -3,7 +3,7 @@ import { StyleSheet, View, Image } from "react-native";
 import AppText from "../components/AppText";
 import Divider from "react-native-divider";
 
-function NgoSideBar() {
+function NgoInfo() {
   const [founded, setFounded] = useState(1998);
   const [services, setServices] = useState(["Education", "Orphanage", "Food"]);
   const [email, setEmail] = useState("chippa@gmail.com");
@@ -94,4 +94,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-export default NgoSideBar;
+export default NgoInfo;

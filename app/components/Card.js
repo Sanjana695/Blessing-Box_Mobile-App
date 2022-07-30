@@ -23,10 +23,9 @@ function Card({ title, subTitle, image, flexDirection = "row" }) {
 }
 const styles = StyleSheet.create({
   cardContainer: {
-    paddingTop: StatusBar.currentHeight,
+    // paddingTop: StatusBar.currentHeight,
     flexDirection: "row",
-
-    padding: 10,
+    padding: 7,
   },
   card: {
     borderRadius: 15,
@@ -34,7 +33,7 @@ const styles = StyleSheet.create({
     // overflow: "hidden",
     height: "96%",
     width: "100%",
-    marginBottom: 10,
+    // marginBottom: 4,
     justifyContent: "space-between",
   },
 

@@ -20,13 +20,15 @@ function AppTextInput({ icon, ...otherProps }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
+    borderWidth: 2,
+    borderColor: colors.primaryV1,
     borderRadius: 25,
     flexDirection: "row",
     width: "80%",
     alignSelf: "center",
     padding: 10,
-    marginVertical: 15,
+    marginVertical: 5,
   },
   icon: {
     marginRight: 10,

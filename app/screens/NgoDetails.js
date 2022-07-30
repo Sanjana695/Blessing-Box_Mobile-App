@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StatusBar, StyleSheet, View, ScrollView } from "react-native";
 import AppText from "../components/AppText";
-import NgoSideBar from "./NgoSideBar";
+import NgoInfo from "./NgoInfo";
 
 import Divider from "react-native-divider";
 
@@ -11,7 +11,7 @@ function NgoDetails() {
     <>
       <ScrollView>
         <AppText style={styles.heading}>{title}</AppText>
-        <NgoSideBar />
+        <NgoInfo />
         <View style={styles.ngoDetailsCont}>
           <Divider orientation="center">
             <AppText style={styles.subheadings}>About Us</AppText>{" "}
@@ -32,23 +32,6 @@ function NgoDetails() {
 
           <Divider orientation="center">
             <AppText style={styles.subheadings}>Our Services</AppText>
-          </Divider>
-          <AppText style={styles.subtext}>
-            CHHIPA WELFARE, a non-profit welfare organization in Pakistan,
-            imbued with a noble mission, having sincere love and affection for
-            the humanity and a strong commitment to serve the COMMON PEOPLE
-            without discrimination of any caste, creed or colour under all
-            circumstances, where frequent road accidents, sudden events and
-            emergencies daily occur. CHHIPA WELFARE, a non-profit welfare
-            organization in Pakistan, imbued with a noble mission, having
-            sincere love and affection for the humanity and a strong commitment
-            to serve the COMMON PEOPLE without discrimination of any caste,
-            creed or colour under all circumstances, where frequent road
-            accidents, sudden events and emergencies daily occur.
-          </AppText>
-
-          <Divider orientation="center">
-            <AppText style={styles.subheadings}>Our Projects</AppText>
           </Divider>
           <AppText style={styles.subtext}>
             CHHIPA WELFARE, a non-profit welfare organization in Pakistan,

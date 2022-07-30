@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import colors from "../config/colors";
+import Divider from "react-native-divider";
 
 import * as Yup from "yup";
 import AppFormField from "../components/forms/AppFormField";
@@ -23,7 +24,9 @@ function LoginScreen() {
         resizeMode="cover"
       />
 
-      <Text style={styles.login}>Login</Text>
+      <Divider orientation="center">
+        <Text style={styles.login}>Login</Text>
+      </Divider>
       <AppForm
         initialValues={{ email: "", password: "" }}
         onSubmit={(values) => console.log(values)}
@@ -57,15 +60,13 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   login: {
-    fontSize: 40,
-    alignSelf: "center",
-    color: colors.primaryV1,
+    fontSize: 20,
+    fontWeight: "bold",
+    color: colors.primaryV2,
   },
   logo: {
     width: 200,
     height: 250,
-    // alignItems: "center",
-    // justifyContent: "center",
     alignSelf: "center",
   },
 });

@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
   error: {
     color: "red",
     fontSize: 12,
+    marginLeft: 35,
   },
 });
 export default ErrorMessage;
