@@ -12,26 +12,31 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TabNavigator from "./app/components/layout/TabNavigator";
+import { Provider } from "react-redux";
+import store from "./app/components/store";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
-  const Tab = createBottomTabNavigator();
 
   return (
-    <NavigationContainer independent={true}>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="Home" component={DrawerRoute} />
-        <Stack.Screen name="DisplayNGOs" component={DisplayNGOs} />
-        <Stack.Screen name="ChooseCategory" component={ChooseCategory} />
-        <Stack.Screen name="NGOsDetails" component={TabNavigator} />
-        <Stack.Screen name="NGOProjects" component={NGOProjects} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer independent={true}>
+        <Stack.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Home" component={DrawerRoute} />
+          <Stack.Screen name="sign-in" component={RegisterScreen} />
+          <Stack.Screen name="login" component={LoginScreen} />
+          <Stack.Screen name="DisplayNGOs" component={DisplayNGOs} />
+          {/* <Stack.Screen name="ChooseCategory" component={ChooseCategory} /> */}
+          <Stack.Screen name="NGODetails" component={TabNavigator} />
+          <Stack.Screen name="NGOProjects" component={NGOProjects} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

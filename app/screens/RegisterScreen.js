@@ -1,101 +1,159 @@
 import React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, ScrollView, Alert } from "react-native";
 import Divider from "react-native-divider";
-
-import AppFormField from "../components/forms/AppFormField";
-import AppForm from "../components/forms/AppForm";
-import SubmitButton from "../components/forms/SubmitButton";
+import ErrorMessage from "../components/forms/ErrorMessage";
+import AppButton from "../components/AppButton";
+import APICallHandler from "../components/APICallHandler";
 import colors from "../config/colors";
-
+import { Formik } from "formik";
 import * as Yup from "yup";
+import { useNavigation } from "@react-navigation/native";
+import AppTextInput from "../components/AppTextInput";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().label("name"),
-  username: Yup.string().required().label("Username"),
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required().min(8).label("Password"),
-  number: Yup.number().required().label("Number"),
+  contact: Yup.number().required().label("Contact"),
   designation: Yup.string().required().label("Designation"),
+  address: Yup.string().required().label("Address"),
 });
 function RegisterScreen() {
+  const navigation = useNavigation();
+
+  const PostDonor = (values) => {
+    console.log("data posted", values);
+    APICallHandler("users", JSON.stringify(values), "POST", JSON, null).then(
+      (res) => {
+        // console.log("some", res);
+        Alert.alert(
+          "Registered successfully! \n Check your email for account varification."
+        );
+        navigation.navigate("login");
+        if (res.user === 200) {
+          console.log("in api", res);
+          Alert(
+            "Registered successfully! \n Check your email for account varification."
+          );
+        }
+      }
+    );
+  };
+
   return (
-    <View style={styles.container}>
-      <Divider orientation="center">
-        <Text style={styles.signup}>Sign Up</Text>
-      </Divider>
-      <Image
-        source={require("../assets/registration.png")}
-        alt="registration.png"
-        style={styles.registerPic}
-        resizeMode="cover"
-      />
-      <AppForm
-        initialValues={{
-          name: "",
-          username: "",
-          email: "",
-          password: "",
-          number: "",
-          designation: "",
-        }}
-        onSubmit={(values) => console.log(values)}
-        validationSchema={validationSchema}
-      >
-        <AppFormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboradType="default"
-          icon={false}
-          name="name"
-          placeholder="Enter Name"
+    <ScrollView>
+      <View style={styles.container}>
+        <Divider orientation="center">
+          <Text style={styles.signup}>Sign Up</Text>
+        </Divider>
+        <Image
+          source={require("../assets/registration.png")}
+          alt="registration.png"
+          style={styles.registerPic}
+          resizeMode="cover"
         />
-        <AppFormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboradType="default"
-          icon={false}
-          name="username"
-          placeholder="Enter Username"
-        />
+        <Formik
+          initialValues={{
+            name: "",
+            email: "",
+            password: "",
+            contact: "",
+            designation: "",
+            address: "",
+          }}
+          onSubmit={PostDonor}
+          validationSchema={validationSchema}
+        >
+          {({
+            handleChange,
+            handleSubmit,
+            errors,
+            setFieldTouched,
+            touched,
+          }) => (
+            <>
+              <AppTextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboradType="default"
+                onChangeText={handleChange("name")}
+                onBlur={() => setFieldTouched("name")}
+                icon={false}
+                placeholder="Enter Name"
+              />
+              <ErrorMessage error={errors.name} visible={touched.name} />
 
-        <AppFormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboradType="email-address"
-          icon={false}
-          name="email"
-          placeholder="Enter Email"
-        />
+              <AppTextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboradType="email-address"
+                onChangeText={handleChange("email")}
+                onBlur={() => setFieldTouched("email")}
+                textContentType="emailAddress"
+                icon={false}
+                placeholder="Enter Email"
+              />
+              <ErrorMessage error={errors.email} visible={touched.email} />
 
-        <AppFormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon={false}
-          name="password"
-          placeholder="Password"
-          secureTextEntry
-        />
-        <AppFormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboardType="numeric"
-          icon={false}
-          name="number"
-          placeholder="Enter Number"
-        />
-
-        <AppFormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboradType="default"
-          icon={false}
-          name="designation"
-          placeholder="Enter Designation"
-        />
-
-        <SubmitButton title="Register" color={colors.primaryV1} width="80%" />
-      </AppForm>
-    </View>
+              <AppTextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                icon={false}
+                placeholder="Enter Password"
+                onChangeText={handleChange("password")}
+                onBlur={() => setFieldTouched("password")}
+                textContentType="password"
+                secureTextEntry
+              />
+              <ErrorMessage
+                error={errors.password}
+                visible={touched.password}
+              />
+              <AppTextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="numeric"
+                icon={false}
+                onChangeText={handleChange("contact")}
+                onBlur={() => setFieldTouched("contact")}
+                placeholder="Enter Number"
+              />
+              <ErrorMessage error={errors.contact} visible={touched.contact} />
+              <AppTextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboradType="default"
+                onChangeText={handleChange("designation")}
+                onBlur={() => setFieldTouched("designation")}
+                icon={false}
+                placeholder="Enter Designation"
+              />
+              <ErrorMessage
+                error={errors.designation}
+                visible={touched.designation}
+              />
+              <AppTextInput
+                multiline={true}
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboradType="default"
+                onChangeText={handleChange("address")}
+                onBlur={() => setFieldTouched("address")}
+                icon={false}
+                placeholder="Enter Address"
+              />
+              <ErrorMessage error={errors.address} visible={touched.address} />
+              <AppButton
+                title="Register"
+                color={colors.primaryV1}
+                width="80%"
+                onPress={handleSubmit}
+              />
+            </>
+          )}
+        </Formik>
+      </View>
+    </ScrollView>
   );
 }
 

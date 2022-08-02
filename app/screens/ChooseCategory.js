@@ -10,7 +10,7 @@ import AppText from "../components/AppText";
 import Card from "../components/Card";
 import colors from "../config/colors";
 
-function ChooseCategory() {
+function ChooseCategory({ category }) {
   const navigation = useNavigation();
   return (
     <>
@@ -19,7 +19,9 @@ function ChooseCategory() {
           Choose, where you want to donate
         </AppText>
 
-        <TouchableOpacity onPress={() => navigation.navigate("DisplayNGOs")}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("DisplayNGOs", { category })}
+        >
           <Card
             title="Orphanage"
             subTitle="1000 Rupees Donated"
@@ -27,7 +29,9 @@ function ChooseCategory() {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("DisplayNGOs")}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("DisplayNGOs", { category })}
+        >
           <Card
             title="Food"
             subTitle="1000 Rupees Donated"
@@ -36,7 +40,9 @@ function ChooseCategory() {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("DisplayNGOs")}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("DisplayNGOs", { category })}
+        >
           <Card
             title="Education"
             subTitle="1000 Rupees Donated"

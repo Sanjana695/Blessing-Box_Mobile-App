@@ -1,11 +1,26 @@
 import React, { useState } from "react";
 import { StatusBar, StyleSheet, View, ScrollView } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+
 import AppText from "../components/AppText";
 import NgoInfo from "./NgoInfo";
 
 import Divider from "react-native-divider";
 
 function NgoDetails() {
+  const navigation = useNavigation();
+  // const route = useRoute();
+  // const { serviceType, id } = route.params;
+  // console.log("in id", id);
+  // console.log("inservice", serviceType);
+
+  // const details = useSelector((state) => state.detailsReducer);
+  // const ngos = details[serviceType].filter((ngo) => ngo.ngo.id == id);
+
+  // console.log(ngos[0].ngo.name);
+
+  // console.log("In details ", details);
   const [title, setTitle] = useState("Chippa NGO");
   return (
     <>

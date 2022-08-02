@@ -2,18 +2,38 @@ import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import colors from "../config/colors";
 import Divider from "react-native-divider";
-
 import * as Yup from "yup";
-import AppFormField from "../components/forms/AppFormField";
-import SubmitButton from "../components/forms/SubmitButton";
-import AppForm from "../components/forms/AppForm";
+import AppTextInput from "../components/AppTextInput";
+import AppButton from "../components/AppButton";
+import { Formik } from "formik";
+import ErrorMessage from "../components/forms/ErrorMessage";
+import { useNavigation } from "@react-navigation/native";
+import APICallHandler from "../components/APICallHandler";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
   password: Yup.string().required().min(8).label("Password"),
 });
+
 function LoginScreen() {
-  // var {width} = Dimensions.get('window');
+  const navigation = useNavigation();
+
+  const donorLogin = (values) => {
+    console.log("data posted", values);
+    APICallHandler("user", JSON.stringify(values), "POST", JSON, null).then(
+      (res) => {
+        // console.log("some", res);
+
+        navigation.navigate("Home");
+        if (res.status === 200) {
+          console.log("in api", res);
+          Alert.alert(
+            "Registered successfully! \n Check your email for account varification."
+          );
+        }
+      }
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -27,30 +47,47 @@ function LoginScreen() {
       <Divider orientation="center">
         <Text style={styles.login}>Login</Text>
       </Divider>
-      <AppForm
+
+      <Formik
         initialValues={{ email: "", password: "" }}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={donorLogin}
         validationSchema={validationSchema}
       >
-        <AppFormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboradType="email-address"
-          icon="email"
-          name="email"
-          placeholder="Enter Email"
-        />
+        {({ handleChange, handleSubmit, errors, setFieldTouched, touched }) => (
+          <>
+            <AppTextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboradType="email-address"
+              onChangeText={handleChange("email")}
+              onBlur={() => setFieldTouched("email")}
+              textContentType="emailAddress"
+              icon="email"
+              placeholder="Enter Email"
+            />
 
-        <AppFormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon="lock"
-          name="password"
-          placeholder="Password"
-          secureTextEntry
-        />
-        <SubmitButton title="Login" color={colors.primaryV1} width="80%" />
-      </AppForm>
+            <ErrorMessage error={errors.email} visible={touched.email} />
+
+            <AppTextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              icon="lock"
+              onChangeText={handleChange("password")}
+              onBlur={() => setFieldTouched("password")}
+              placeholder="Password"
+              secureTextEntry
+              textContentType="password"
+            />
+            <ErrorMessage error={errors.password} visible={touched.password} />
+            <AppButton
+              title="Login"
+              color={colors.primaryV1}
+              width="80%"
+              onPress={handleSubmit}
+            />
+          </>
+        )}
+      </Formik>
     </View>
   );
 }
@@ -59,6 +96,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 50,
   },
+
   login: {
     fontSize: 20,
     fontWeight: "bold",
