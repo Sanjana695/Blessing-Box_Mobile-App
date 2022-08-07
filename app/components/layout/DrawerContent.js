@@ -49,7 +49,7 @@ function DrawerContent(props) {
               )}
               label={() => <Text style={styles.drawerItem}>Home</Text>}
               onPress={() => {
-                props.navigation.navigate("Home2");
+                props.navigation.navigate("Blessing Box");
               }}
             />
           </Drawer.Section>
@@ -104,7 +104,9 @@ function DrawerContent(props) {
                   <Text style={styles.drawerSubItem}>Orphanage</Text>
                 )}
                 onPress={() => {
-                  props.navigation.navigate("DisplayNGOs");
+                  props.navigation.navigate("DisplayNGOs", {
+                    category: "orphange",
+                  });
                 }}
               />
             )}
@@ -114,7 +116,9 @@ function DrawerContent(props) {
                 style={{ marginLeft: "20%" }}
                 label={() => <Text style={styles.drawerSubItem}>Food</Text>}
                 onPress={() => {
-                  props.navigation.navigate("DisplayNGOs");
+                  props.navigation.navigate("DisplayNGOs", {
+                    category: "food",
+                  });
                 }}
               />
             )}
@@ -126,7 +130,9 @@ function DrawerContent(props) {
                   <Text style={styles.drawerSubItem}>Education</Text>
                 )}
                 onPress={() => {
-                  props.navigation.navigate("DisplayNGOs");
+                  props.navigation.navigate("DisplayNGOs", {
+                    category: "education",
+                  });
                 }}
               />
             )}

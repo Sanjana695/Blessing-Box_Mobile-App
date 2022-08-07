@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StatusBar, StyleSheet, View, ScrollView } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
@@ -9,58 +9,46 @@ import NgoInfo from "./NgoInfo";
 import Divider from "react-native-divider";
 
 function NgoDetails() {
-  const navigation = useNavigation();
-  // const route = useRoute();
-  // const { serviceType, id } = route.params;
-  // console.log("in id", id);
-  // console.log("inservice", serviceType);
+  const [ngoInfo, setNgoInfo] = useState({});
+  const reduxData = useSelector((state) => state);
 
-  // const details = useSelector((state) => state.detailsReducer);
-  // const ngos = details[serviceType].filter((ngo) => ngo.ngo.id == id);
+  useEffect(() => {
+    const { ngoDetailReducer, detailsReducer } = reduxData;
+    console.log(detailsReducer);
+    console.log(ngoDetailReducer);
 
-  // console.log(ngos[0].ngo.name);
+    const serviceType = ngoDetailReducer.ngoData.serviceType.toLowerCase();
+    console.log(serviceType);
 
-  // console.log("In details ", details);
+    const ngo = detailsReducer[serviceType].filter(
+      (ngo) => ngo.id == ngoDetailReducer.ngoData.id
+    );
+
+    console.log("ngo Info", ngo[0]);
+
+    const filteredNgo = ngo;
+    setNgoInfo(() => ngo[0]);
+    console.log(ngo);
+  }, []);
+
   const [title, setTitle] = useState("Chippa NGO");
   return (
     <>
       <ScrollView>
         <AppText style={styles.heading}>{title}</AppText>
         <NgoInfo />
+
+        {/* /////////details/////////////// */}
         <View style={styles.ngoDetailsCont}>
           <Divider orientation="center">
             <AppText style={styles.subheadings}>About Us</AppText>{" "}
           </Divider>
-          <AppText style={styles.subtext}>
-            CHHIPA WELFARE, a non-profit welfare organization in Pakistan,
-            imbued with a noble mission, having sincere love and affection for
-            the humanity and a strong commitment to serve the COMMON PEOPLE
-            without discrimination of any caste, creed or colour under all
-            circumstances, where frequent road accidents, sudden events and
-            emergencies daily occur. CHHIPA WELFARE, a non-profit welfare
-            organization in Pakistan, imbued with a noble mission, having
-            sincere love and affection for the humanity and a strong commitment
-            to serve the COMMON PEOPLE without discrimination of any caste,
-            creed or colour under all circumstances, where frequent road
-            accidents, sudden events and emergencies daily occur.
-          </AppText>
+          <AppText style={styles.subtext}>{ngoInfo.about_us}</AppText>
 
           <Divider orientation="center">
             <AppText style={styles.subheadings}>Our Services</AppText>
           </Divider>
-          <AppText style={styles.subtext}>
-            CHHIPA WELFARE, a non-profit welfare organization in Pakistan,
-            imbued with a noble mission, having sincere love and affection for
-            the humanity and a strong commitment to serve the COMMON PEOPLE
-            without discrimination of any caste, creed or colour under all
-            circumstances, where frequent road accidents, sudden events and
-            emergencies daily occur. CHHIPA WELFARE, a non-profit welfare
-            organization in Pakistan, imbued with a noble mission, having
-            sincere love and affection for the humanity and a strong commitment
-            to serve the COMMON PEOPLE without discrimination of any caste,
-            creed or colour under all circumstances, where frequent road
-            accidents, sudden events and emergencies daily occur.
-          </AppText>
+          <AppText style={styles.subtext}>{ngoInfo.services}</AppText>
         </View>
       </ScrollView>
     </>

@@ -1,39 +1,36 @@
-import React from "react";
-import { StyleSheet, Dimensions, View, Text } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, Linking, Alert, StatusBar } from "react-native";
+import AppButton from "../components/AppButton";
+import colors from "../config/colors";
 
-// const source = {
-//   uri: "http://samples.leanpub.com/thereactnativebook-sample.pdf",
-//   cache: true,
-// };
+const url1 = "http://samples.leanpub.com/thereactnativebook-sample.pdf";
 
 function ExpenditureReport() {
+  const openUrl = async (url) => {
+    const isSupported = await Linking.canOpenURL(url);
+    if (isSupported) {
+      await Linking.openURL(url);
+    } else {
+      Alert.alert(`Do not how to open this ${url}`);
+    }
+  };
   return (
-    <View>
-      {/* <Pdf
-        source={source}
-        onLoadComplete={(numberOfPages, filePath) => {
-          console.log(`Number of pages: ${numberOfPages}`);
+    <View style={styles.container}>
+      <AppButton
+        title="Open URL"
+        color={colors.primaryV1}
+        width="60%"
+        onPress={() => {
+          openUrl(url1);
         }}
-        onPageChanged={(page, numberOfPages) => {
-          console.log(`Current page: ${page}`);
-        }}
-        onError={(error) => {
-          console.log(error);
-        }}
-        onPressLink={(uri) => {
-          console.log(`Link pressed: ${uri}`);
-        }}
-        style={styles.pdf}
-      /> */}
-      <Text>some</Text>
+      />
     </View>
   );
 }
 export default ExpenditureReport;
 const styles = StyleSheet.create({
-  // pdf: {
-  //   flex: 1,
-  //   width: Dimensions.get("window").width,
-  //   height: Dimensions.get("window").height,
-  // },
+  container: {
+    flex: 1,
+    // paddingTop: StatusBar.currentHeight,
+  },
 });

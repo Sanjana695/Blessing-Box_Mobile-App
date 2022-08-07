@@ -4,9 +4,9 @@ import NgoDetails from "../../screens/NgoDetails";
 import NGOProjects from "../../screens/NGOProjects";
 import ExpenditureReport from "../../screens/ExpenditureReport";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
+import ImagePath from "../constants/ImagePath";
 import Color from "../../config/colors";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, Image } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,49 +17,58 @@ function TabNavigator() {
         useLegacyImplementation={true}
         screenOptions={{
           headerShown: false,
+          tabBarActiveTintColor: Color.primaryV2,
+          tabBarInactiveTintColor: "gray",
         }}
       >
         <Tab.Screen
           name="Home"
           component={NgoDetails}
           options={{
-            tabBarLabel: ({}) => <Text style={styles.tabItem}>Home</Text>,
+            // tabBarLabel: ({}) => <Text style={styles.tabItem}>Home</Text>,
 
-            tabBarIcon: () => (
-              <MaterialCommunityIcons
-                name="home"
-                color={Color.primaryV2}
-                size={30}
-              />
-            ),
+            tabBarIcon: ({ focused }) => {
+              return (
+                <Image
+                  source={ImagePath.homeIcon}
+                  style={{ tintColor: focused ? Color.primaryV2 : "gray" }}
+                />
+                // <MaterialCommunityIcons
+                //   name="home"
+                //   // color={Color.primaryV2}
+                //   style={{ tintColor: focused ? "blue" : "gray" }}
+                //   size={20}
+                // />
+              );
+            },
           }}
         />
         <Tab.Screen
           name="Projects"
           component={NGOProjects}
           options={{
-            tabBarLabel: ({}) => <Text style={styles.tabItem}>Projects</Text>,
-            tabBarIcon: () => (
-              <MaterialCommunityIcons
-                name="menu-open"
-                color={Color.primaryV2}
-                size={30}
-              />
-            ),
+            tabBarIcon: ({ focused }) => {
+              return (
+                <Image
+                  source={ImagePath.projectIcon}
+                  style={{ tintColor: focused ? Color.primaryV2 : "gray" }}
+                />
+              );
+            },
           }}
         />
         <Tab.Screen
           name="Expenditure Report"
           component={ExpenditureReport}
           options={{
-            tabBarLabel: ({}) => <Text style={styles.tabItem}>Report</Text>,
-            tabBarIcon: () => (
-              <MaterialCommunityIcons
-                name="file-document"
-                color={Color.primaryV2}
-                size={30}
-              />
-            ),
+            tabBarIcon: ({ focused }) => {
+              return (
+                <Image
+                  source={ImagePath.reportIcon}
+                  style={{ tintColor: focused ? Color.primaryV2 : "gray" }}
+                />
+              );
+            },
           }}
         />
       </Tab.Navigator>
@@ -70,7 +79,7 @@ export default TabNavigator;
 
 const styles = StyleSheet.create({
   tabItem: {
-    color: Color.primaryV2,
+    // color: Color.primaryV2,
     fontWeight: "bold",
   },
 });

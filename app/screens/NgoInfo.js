@@ -1,52 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import AppText from "../components/AppText";
 import Divider from "react-native-divider";
+import { useSelector } from "react-redux";
 
 function NgoInfo() {
-  const [founded, setFounded] = useState(1998);
-  const [services, setServices] = useState(["Education", "Orphanage", "Food"]);
-  const [email, setEmail] = useState("chippa@gmail.com");
-  const [contact, setContact] = useState("03227865342");
-  const [address, setAddress] = useState("Sukkur");
+  // const [ngoInfo, setNgoInfo] = useState({});
+  const reduxData = useSelector((state) => state);
 
-  const [founder, setFounder] = useState("Abdul Sattar Edhi");
-  const [founderContact, setFounderContact] = useState("03229087654");
-  const [founderEmail, setFounderEmail] = useState("sadiashah059@gmail.com");
+  const { ngoDetailReducer, detailsReducer } = reduxData;
+  console.log(ngoDetailReducer);
+  console.log(detailsReducer);
+
+  const serviceType = ngoDetailReducer.ngoData.serviceType.toLowerCase();
+  console.log(serviceType);
+
+  const ngos = detailsReducer[serviceType].filter(
+    (ngo) => ngo.ngo.id == ngoDetailReducer.ngoData.id
+  );
+
   return (
     <View style={styles.ngodetailscont}>
-      <Image source={require("../assets/chippa.png")} style={styles.ngoimage} />
+      <Image source={{ uri: ngos[0].image }} style={styles.ngoimage} />
 
-      {/* ///////////NGO INFORMATION//////////// */}
+      {/* ///////////////NGO INFORMATION//////////////// */}
       <Divider orientation="center">
         <AppText style={styles.ngoInfo}>NGO Information</AppText>
       </Divider>
       <View style={styles.detailsContainer}>
-        <AppText style={styles.ngoinfoheadings}>founded</AppText>
-        <AppText>{founded}</AppText>
+        <AppText style={styles.ngoinfoheadings}>Founded</AppText>
+        <AppText>{ngos[0].ngo.year}</AppText>
       </View>
 
       <View style={styles.detailsContainer}>
-        <AppText style={styles.ngoinfoheadings}>Services</AppText>
-        <AppText>{`${services}, `}</AppText>
+        <AppText style={styles.ngoinfoheadings}>Service Areas</AppText>
+        <AppText> {ngos[0].ngo.serviceArea}</AppText>
       </View>
 
       <View style={styles.detailsContainer}>
         <AppText style={styles.ngoinfoheadings}>Email</AppText>
-        <AppText>{email}</AppText>
+        <AppText>{ngos[0].ngo.ngoEmail} </AppText>
       </View>
 
       <View style={styles.detailsContainer}>
         <AppText style={styles.ngoinfoheadings}>Contact</AppText>
-        <AppText>{contact}</AppText>
+        <AppText>{ngos[0].ngo.contact}</AppText>
       </View>
 
       <View style={styles.detailsContainer}>
         <AppText style={styles.ngoinfoheadings}>Main Branch</AppText>
-        <AppText>{address}</AppText>
+        <AppText> {ngos[0].ngo.address}</AppText>
       </View>
 
-      {/* ///////////FOUNDER INFORMATION//////////// */}
+      {/* //////////////////FOUNDER INFORMATION/////////////////////// */}
 
       <Divider orientation="center">
         <AppText style={styles.ngoInfo}>Founder Information</AppText>
@@ -54,21 +60,23 @@ function NgoInfo() {
 
       <View style={styles.detailsContainer}>
         <AppText style={styles.ngoinfoheadings}>Founder</AppText>
-        <AppText>{founder}</AppText>
+        <AppText>{ngos[0].ngo.founderName} </AppText>
       </View>
 
       <View style={styles.detailsContainer}>
         <AppText style={styles.ngoinfoheadings}>Contact</AppText>
-        <AppText>{founderContact}</AppText>
+        <AppText>{ngos[0].ngo.founderContact}</AppText>
       </View>
 
       <View style={styles.detailsContainer}>
         <AppText style={styles.ngoinfoheadings}>Email</AppText>
-        <AppText>{founderEmail}</AppText>
+        <AppText>{ngos[0].ngo.ngoEmail}</AppText>
       </View>
     </View>
   );
 }
+
+//////////////////////////////////CSS CODE//////////////////////////////////
 const styles = StyleSheet.create({
   detailsContainer: {
     flexDirection: "row",

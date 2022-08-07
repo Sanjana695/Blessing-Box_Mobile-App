@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import colors from "../config/colors";
 import Divider from "react-native-divider";
@@ -8,7 +8,10 @@ import AppButton from "../components/AppButton";
 import { Formik } from "formik";
 import ErrorMessage from "../components/forms/ErrorMessage";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import APICallHandler from "../components/APICallHandler";
+import { useSelector, useDispatch } from "react-redux";
+import { isLogin, isLogout, setUserInfo } from "../redux/donor/action";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -16,25 +19,30 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginScreen() {
+  const [valid, setValid] = useState();
+
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
-  const donorLogin = (values) => {
-    console.log("data posted", values);
-    APICallHandler("user", JSON.stringify(values), "POST", JSON, null).then(
-      (res) => {
-        // console.log("some", res);
-
-        navigation.navigate("Home");
-        if (res.status === 200) {
-          console.log("in api", res);
-          Alert.alert(
-            "Registered successfully! \n Check your email for account varification."
-          );
-        }
-      }
-    );
-  };
-
+  useEffect(() => {
+    // const getLogin = (values) => {
+    //   console.log("data posted", values);
+    //   APICallHandler("user", JSON.stringify(values), "POST", JSON, null).then(
+    //     (res) => {
+    //       // console.log("some", res);
+    //       navigation.navigate("Home");
+    //       if (res.status === 200) {
+    //         console.log("in api", res);
+    //         Alert.alert(
+    //           "Registered successfully! \n Check your email for account varification."
+    //         );
+    //       }
+    //     }
+    //   );
+    // };
+    // getLogin();
+  });
+  const verifyDonor = () => {};
   return (
     <View style={styles.container}>
       <Image
@@ -50,7 +58,7 @@ function LoginScreen() {
 
       <Formik
         initialValues={{ email: "", password: "" }}
-        onSubmit={donorLogin}
+        onSubmit={verifyDonor}
         validationSchema={validationSchema}
       >
         {({ handleChange, handleSubmit, errors, setFieldTouched, touched }) => (

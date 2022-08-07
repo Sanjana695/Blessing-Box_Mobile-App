@@ -1,4 +1,1 @@
 export const SET_NGO_INFO = "SET_NGO_INFO";
-export const SET_FOOD_INFO = "SET_FOOD_INFO";
-export const SET_ORPHANGE_INFO = "SET_ORPHANGE_INFO";
-export const SET_EDUCATION_INFO = "SET_EDUCATION_INFO";

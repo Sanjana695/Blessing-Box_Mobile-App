@@ -2,26 +2,40 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, StatusBar, View, TouchableOpacity } from "react-native";
 import Card from "../components/Card";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setNGOData } from "../redux/selectNgoDetail/action";
+import AppText from "../components/AppText";
+import colors from "../config/colors";
 // import { BottomNavigation } from "react-native-paper";
 
 function DisplayNGOs() {
   const navigation = useNavigation();
   const route = useRoute();
+  const dispatch = useDispatch();
 
   const { category } = route.params;
   // console.log("INNNN category", category);
 
   const ngos = useSelector((state) => state.detailsReducer[category]);
-  console.log("In details ", ngos);
+  // console.log("In details ", ngos);
 
   return (
     <View style={styles.container}>
+      <AppText style={styles.heading}>{category} NGOS</AppText>
       {ngos.map((ngo) => {
         return (
           <TouchableOpacity
             key={ngo.id}
-            onPress={() => navigation.navigate("NGODetails")}
+            onPress={() => {
+              const data = {
+                id: ngo.ngo.id,
+                serviceType: ngo.ngo.serviceType,
+              };
+
+              dispatch(setNGOData(data));
+
+              navigation.navigate("NGODetails");
+            }}
           >
             <Card
               title={ngo.ngo.name}
@@ -37,6 +51,13 @@ function DisplayNGOs() {
 const styles = StyleSheet.create({
   container: {
     paddingTop: StatusBar.currentHeight,
+  },
+  heading: {
+    color: colors.primaryV2,
+    fontSize: 20,
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase",
   },
 });
 export default DisplayNGOs;

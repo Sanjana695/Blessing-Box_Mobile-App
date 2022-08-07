@@ -6,6 +6,7 @@ import {
   StatusBar,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../config/colors";
@@ -25,7 +26,7 @@ function HomeScreen({ category }) {
   useEffect(() => {
     async function getDetails() {
       try {
-        await fetch("http://10.102.142.31:8080/ngodetails", {
+        await fetch("http://10.102.142.34:8080/ngodetails", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -34,7 +35,7 @@ function HomeScreen({ category }) {
           .then((res) => res.json())
           .then((data) => {
             dispatch(setNGOsInfo(data));
-            console.log("data is ", data);
+            console.log("API fetch successfully!");
           });
       } catch (err) {
         console.log(err);
@@ -44,28 +45,33 @@ function HomeScreen({ category }) {
   }, []);
 
   const ngoData = useSelector((state) => state.detailsReducer);
-  console.log("ngosdata", ngoData.education);
+  // console.log("ngosdata", ngoData);
   return (
     <View style={styles.homecontainer}>
-      <LinearGradient
-        colors={["rgb(42, 5, 143)", "rgba(60, 35, 131,0.8)", "rgba(0,0,0,0.5)"]}
-        style={styles.linearbody}
+      <ImageBackground
+        source={require("../assets/bg.jpg")}
+        alt="bg.png"
+        style={styles.bgPic}
       >
-        <ImageBackground
-          source={require("../assets/bg.jpg")}
-          alt="bg.png"
-          style={styles.bgPic}
-        />
-        <Image
-          blurRadius={0}
-          style={styles.background}
-          source={require("../assets/homescreen.png")}
-        />
-        <AppText style={styles.text}>
-          Giving a <AppText style={styles.spanColor}>LITTLE</AppText> is better
-          than not giving at ALL!
-        </AppText>
-      </LinearGradient>
+        <LinearGradient
+          colors={[
+            "rgba(42, 5, 143, 0.76) 0%",
+            "rgba(42, 5, 143, 0.76) 100%",
+            // "rgba(0,0,0,0.8)",
+          ]}
+          style={styles.linearbody}
+        >
+          <Image
+            blurRadius={0}
+            style={styles.background}
+            source={require("../assets/homescreen.png")}
+          />
+          <AppText style={styles.text}>
+            Giving a <AppText style={styles.spanColor}>LITTLE</AppText> is
+            better than not giving at ALL!
+          </AppText>
+        </LinearGradient>
+      </ImageBackground>
 
       {/* ///////////////////category portion///////////////////////// */}
       <View style={styles.container}>
@@ -75,7 +81,7 @@ function HomeScreen({ category }) {
 
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("DisplayNGOs", { category: "Orphanage" })
+            navigation.navigate("DisplayNGOs", { category: "orphange" })
           }
         >
           <Card

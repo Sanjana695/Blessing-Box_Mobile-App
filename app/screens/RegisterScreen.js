@@ -1,5 +1,13 @@
 import React from "react";
-import { StyleSheet, View, Text, Image, ScrollView, Alert } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  ScrollView,
+  Alert,
+  StatusBar,
+} from "react-native";
 import Divider from "react-native-divider";
 import ErrorMessage from "../components/forms/ErrorMessage";
 import AppButton from "../components/AppButton";
@@ -22,19 +30,20 @@ function RegisterScreen() {
   const navigation = useNavigation();
 
   const PostDonor = (values) => {
-    console.log("data posted", values);
+    // console.log("data posted", values);
     APICallHandler("users", JSON.stringify(values), "POST", JSON, null).then(
       (res) => {
         // console.log("some", res);
+        navigation.navigate("login");
+
         Alert.alert(
           "Registered successfully! \n Check your email for account varification."
         );
-        navigation.navigate("login");
         if (res.user === 200) {
           console.log("in api", res);
-          Alert(
-            "Registered successfully! \n Check your email for account varification."
-          );
+          // Alert(
+          //   "Registered successfully! \n Check your email for account varification."
+          // );
         }
       }
     );
@@ -159,6 +168,7 @@ function RegisterScreen() {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: StatusBar.currentHeight,
     // marginTop: 30,
   },
   signup: {
