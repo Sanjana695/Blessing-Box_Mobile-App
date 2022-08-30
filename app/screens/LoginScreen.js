@@ -1,48 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import colors from "../config/colors";
 import Divider from "react-native-divider";
-import * as Yup from "yup";
 import AppTextInput from "../components/AppTextInput";
 import AppButton from "../components/AppButton";
-import { Formik } from "formik";
-import ErrorMessage from "../components/forms/ErrorMessage";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import APICallHandler from "../components/APICallHandler";
-import { useSelector, useDispatch } from "react-redux";
-import { isLogin, isLogout, setUserInfo } from "../redux/donor/action";
-
-const validationSchema = Yup.object().shape({
-  email: Yup.string().required().email().label("Email"),
-  password: Yup.string().required().min(8).label("Password"),
-});
+import { useDispatch } from "react-redux";
+import { isLogin, setUserInfo } from "../redux/donor/action";
+import AppText from "../components/AppText";
 
 function LoginScreen() {
-  const [valid, setValid] = useState();
-
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // const getLogin = (values) => {
-    //   console.log("data posted", values);
-    //   APICallHandler("user", JSON.stringify(values), "POST", JSON, null).then(
-    //     (res) => {
-    //       // console.log("some", res);
-    //       navigation.navigate("Home");
-    //       if (res.status === 200) {
-    //         console.log("in api", res);
-    //         Alert.alert(
-    //           "Registered successfully! \n Check your email for account varification."
-    //         );
-    //       }
-    //     }
-    //   );
-    // };
-    // getLogin();
-  });
-  const verifyDonor = () => {};
+  const [email, setEmail] = useState();
+  const [password, setpassword] = useState();
+  const [data, setData] = useState([]);
+
+  const verifyUser = () => {
+    const values = { email, password };
+    // console.log(values);
+    APICallHandler("user", JSON.stringify(values), "POST", JSON, null)
+      .then((res) => {
+        console.log(res);
+        setData(res);
+        navigation.navigate("Home2");
+
+        if (res.email == email) {
+          const token = AsyncStorage.setItem("token", res.token);
+          console.log("token", token);
+          //dispatch state whether user is logged in or not
+          dispatch(isLogin());
+
+          //store user details into redux
+          dispatch(setUserInfo(res.user));
+
+          //navigate to home screen
+          // navigation.navigate("Home2");
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
   return (
     <View style={styles.container}>
       <Image
@@ -56,46 +59,46 @@ function LoginScreen() {
         <Text style={styles.login}>Login</Text>
       </Divider>
 
-      <Formik
-        initialValues={{ email: "", password: "" }}
-        onSubmit={verifyDonor}
-        validationSchema={validationSchema}
+      <AppTextInput
+        autoCapitalize="none"
+        autoCorrect={false}
+        keyboradType="email-address"
+        onChangeText={setEmail}
+        textContentType="emailAddress"
+        icon="email"
+        placeholder="Enter Email"
+      />
+
+      <AppTextInput
+        autoCapitalize="none"
+        autoCorrect={false}
+        icon="lock"
+        onChangeText={setpassword}
+        placeholder="Password"
+        secureTextEntry
+        textContentType="password"
+      />
+      <AppButton
+        title="Login"
+        color={colors.primaryV1}
+        width="80%"
+        onPress={verifyUser}
+      />
+      <AppText
+        style={styles.bottomText}
+        onPress={() => navigation.navigate("Sign up")}
       >
-        {({ handleChange, handleSubmit, errors, setFieldTouched, touched }) => (
-          <>
-            <AppTextInput
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboradType="email-address"
-              onChangeText={handleChange("email")}
-              onBlur={() => setFieldTouched("email")}
-              textContentType="emailAddress"
-              icon="email"
-              placeholder="Enter Email"
-            />
+        Not Registered? Click Here for Registration!
+      </AppText>
 
-            <ErrorMessage error={errors.email} visible={touched.email} />
-
-            <AppTextInput
-              autoCapitalize="none"
-              autoCorrect={false}
-              icon="lock"
-              onChangeText={handleChange("password")}
-              onBlur={() => setFieldTouched("password")}
-              placeholder="Password"
-              secureTextEntry
-              textContentType="password"
-            />
-            <ErrorMessage error={errors.password} visible={touched.password} />
-            <AppButton
-              title="Login"
-              color={colors.primaryV1}
-              width="80%"
-              onPress={handleSubmit}
-            />
-          </>
-        )}
-      </Formik>
+      {data == "This email is not registered" ||
+      data == "Either Username or password is wrong" ? (
+        <AppText style={styles.error}>
+          Either Username or Password is Wrong!
+        </AppText>
+      ) : (
+        <AppText></AppText>
+      )}
     </View>
   );
 }
@@ -103,6 +106,12 @@ function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     marginTop: 50,
+  },
+  error: {
+    alignSelf: "center",
+    color: "red",
+    fontWeight: "bold",
+    marginTop: 15,
   },
 
   login: {
@@ -114,6 +123,13 @@ const styles = StyleSheet.create({
     width: 200,
     height: 250,
     alignSelf: "center",
+  },
+  bottomText: {
+    alignSelf: "center",
+    color: colors.primaryV2,
+    marginTop: 15,
+    marginBottom: 15,
+    fontWeight: "bold",
   },
 });
 export default LoginScreen;

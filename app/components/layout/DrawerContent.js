@@ -3,13 +3,15 @@ import { View, StyleSheet, Image, ImageBackground, Text } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 // import Icon from "@expo/vector-icons/Ionicons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
+import { useDispatch, useSelector } from "react-redux";
+import { isLogout } from "../../redux/donor/action";
 import { Drawer } from "react-native-paper";
 import Color from "../../config/colors";
 
 function DrawerContent(props) {
   const [nestedDrawerItem, setNestedDrawerItem] = useState(false);
-
+  const dispatch = useDispatch();
+  const myState = useSelector((state) => state.loginReducer);
   const NestedDrawerItem = () => {
     if (nestedDrawerItem == true) {
       setNestedDrawerItem(false);
@@ -49,7 +51,7 @@ function DrawerContent(props) {
               )}
               label={() => <Text style={styles.drawerItem}>Home</Text>}
               onPress={() => {
-                props.navigation.navigate("Blessing Box");
+                props.navigation.navigate("Home2");
               }}
             />
           </Drawer.Section>
@@ -104,7 +106,7 @@ function DrawerContent(props) {
                   <Text style={styles.drawerSubItem}>Orphanage</Text>
                 )}
                 onPress={() => {
-                  props.navigation.navigate("DisplayNGOs", {
+                  props.navigation.navigate("Display NGOs", {
                     category: "orphange",
                   });
                 }}
@@ -116,7 +118,7 @@ function DrawerContent(props) {
                 style={{ marginLeft: "20%" }}
                 label={() => <Text style={styles.drawerSubItem}>Food</Text>}
                 onPress={() => {
-                  props.navigation.navigate("DisplayNGOs", {
+                  props.navigation.navigate("Display NGOs", {
                     category: "food",
                   });
                 }}
@@ -130,12 +132,27 @@ function DrawerContent(props) {
                   <Text style={styles.drawerSubItem}>Education</Text>
                 )}
                 onPress={() => {
-                  props.navigation.navigate("DisplayNGOs", {
+                  props.navigation.navigate("Display NGOs", {
                     category: "education",
                   });
                 }}
               />
             )}
+          </Drawer.Section>
+          <Drawer.Section>
+            <DrawerItem
+              label={() => <Text style={styles.drawerItem}>Contact Us</Text>}
+              onPress={() => {
+                props.navigation.navigate("Contact Us");
+              }}
+              icon={() => (
+                <MaterialCommunityIcons
+                  name="contacts"
+                  size={20}
+                  color={Color.primaryV2}
+                />
+              )}
+            />
           </Drawer.Section>
 
           <Drawer.Section>
@@ -158,6 +175,7 @@ function DrawerContent(props) {
               label={() => <Text style={styles.drawerItem}>Login</Text>}
               onPress={() => {
                 props.navigation.navigate("Login");
+                dispatch(isLogout());
               }}
               icon={() => (
                 <MaterialCommunityIcons
@@ -176,6 +194,7 @@ function DrawerContent(props) {
           label={() => <Text style={styles.drawerItem}>Sign Out</Text>}
           onPress={() => {
             props.navigation.navigate("Sign Out");
+            dispatch(isLogout());
           }}
           icon={() => (
             <MaterialCommunityIcons

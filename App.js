@@ -1,80 +1,56 @@
 import "react-native-gesture-handler";
-import HomeScreen from "./app/screens/HomeScreen";
-import LoginScreen from "./app/screens/LoginScreen";
-import DisplayNGOs from "./app/screens/DisplayNGOs";
-import NGOProjects from "./app/screens/NGOProjects";
-import RegisterScreen from "./app/screens/RegisterScreen";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import DrawerContent from "./app/components/layout/DrawerContent";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigationContainer } from "@react-navigation/native";
-import TabNavigator from "./app/components/layout/TabNavigator";
-import { Provider } from "react-redux";
-import store from "./app/components/store";
-import colors from "./app/config/colors";
+import React, { useCallback, useState, useEffect } from "react";
 import { View, StatusBar, StyleSheet } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+
+import MainNavigator from "./app/components/Routes/StackNavigation";
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
+import Entypo from "@expo/vector-icons/Entypo";
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const Stack = createNativeStackNavigator();
+  const [appIsReady, setAppIsReady] = useState(false);
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // Pre-load fonts, make any API calls you need to do here
+        await Font.loadAsync(Entypo.font);
+        // Artificially delay for two seconds to simulate a slow loading
+        // experience. Please remove this if you copy and paste the code!
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setAppIsReady(true);
+      }
+    }
 
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
   return (
-    <Provider store={store}>
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <NavigationContainer independent={true}>
-        <Stack.Navigator
-          initialRouteName="Home"
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="Home" component={DrawerRoute} />
-          <Stack.Screen name="sign-in" component={RegisterScreen} />
-          <Stack.Screen name="login" component={LoginScreen} />
-          <Stack.Screen name="DisplayNGOs" component={DisplayNGOs} />
-          <Stack.Screen name="NGODetails" component={TabNavigator} />
-          <Stack.Screen name="NGOProjects" component={NGOProjects} />
-        </Stack.Navigator>
+        <MainNavigator />
       </NavigationContainer>
-    </Provider>
-  );
-}
-
-function DrawerRoute() {
-  const Drawer = createDrawerNavigator();
-
-  return (
-    <View style={styles.container}>
-      <Drawer.Navigator
-        useLegacyImplementation={true}
-        drawerContent={(props) => <DrawerContent {...props} />}
-      >
-        <Drawer.Screen
-          name="Blessing Box"
-          component={HomeScreen}
-          options={{
-            title: "Blessing Box",
-
-            headerStyle: {
-              backgroundColor: colors.primarytrans,
-            },
-            headerTintColor: colors.white,
-            headerTitleAlign: "center",
-          }}
-        />
-        <Drawer.Screen
-          name="Sign up"
-          component={RegisterScreen}
-          options={{ headerShown: false, drawerItemStyle: { display: "none" } }}
-          onClose={() => closeDrawer()}
-        />
-        <Drawer.Screen name="Login" component={LoginScreen} />
-        <Drawer.Screen name="Sign Out" component={HomeScreen} />
-      </Drawer.Navigator>
     </View>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // paddingTop: StatusBar.currentHeight,
-  },
-});

@@ -26,7 +26,7 @@ function HomeScreen({ category }) {
   useEffect(() => {
     async function getDetails() {
       try {
-        await fetch("http://10.102.142.34:8080/ngodetails", {
+        await fetch("http://192.168.10.3:8080/ngodetails", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -81,7 +81,7 @@ function HomeScreen({ category }) {
 
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("DisplayNGOs", { category: "orphange" })
+            navigation.navigate("Display NGOs", { category: "orphange" })
           }
         >
           <Card
@@ -93,7 +93,7 @@ function HomeScreen({ category }) {
 
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("DisplayNGOs", { category: "food" })
+            navigation.navigate("Display NGOs", { category: "food" })
           }
         >
           <Card
@@ -106,7 +106,7 @@ function HomeScreen({ category }) {
 
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("DisplayNGOs", { category: "education" })
+            navigation.navigate("Display NGOs", { category: "education" })
           }
         >
           <Card
@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
   container: {
     height: "35%",
     top: 25,
+    marginBottom: 10,
   },
 });
 export default HomeScreen;

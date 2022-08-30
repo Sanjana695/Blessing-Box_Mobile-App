@@ -6,13 +6,13 @@ import * as Progress from "react-native-progress";
 
 import AppButton from "./AppButton";
 
-function ProjectCard({ projectName, targetAmount, percent, status, onPress }) {
+function ProjectCard({ title, targetAmount, percent, collected }) {
   return (
     <View style={styles.cardContainer}>
       <View style={styles.card}>
         <View style={styles.detailsContainer}>
           <AppText style={styles.projectName} numberOfLines={1}>
-            {projectName}
+            {title}
           </AppText>
 
           <View style={styles.targetProgress}>
@@ -29,16 +29,11 @@ function ProjectCard({ projectName, targetAmount, percent, status, onPress }) {
                 borderWidth={1}
                 borderRadius={20}
               />
-              <AppText style={styles.status}>{status}</AppText>
+              <AppText style={styles.status}>{collected}</AppText>
             </View>
           </View>
           <View style={styles.button}>
-            <AppButton
-              title="Donate"
-              color={colors.primaryV2}
-              width="50%"
-              onPress={onPress}
-            />
+            <AppButton title="Donate" color={colors.primaryV2} width="50%" />
           </View>
         </View>
       </View>

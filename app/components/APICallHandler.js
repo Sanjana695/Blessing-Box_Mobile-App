@@ -6,7 +6,7 @@ const APICallHandler = async (
   token = ""
 ) => {
   try {
-    const response = await fetch(`http://10.102.142.34:8080/${endpoint}`, {
+    const response = await fetch(`http://192.168.10.3:8080/${endpoint}`, {
       method, //GET, POST, PUT, DELETE
       mode: "cors",
       headers: {

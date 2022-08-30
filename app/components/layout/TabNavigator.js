@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import NgoDetails from "../../screens/NgoDetails";
 import NGOProjects from "../../screens/NGOProjects";
 import ExpenditureReport from "../../screens/ExpenditureReport";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import ProjectDesc from "../../screens/ProjectDesc";
 import ImagePath from "../constants/ImagePath";
 import Color from "../../config/colors";
 import { Text, StyleSheet, Image } from "react-native";

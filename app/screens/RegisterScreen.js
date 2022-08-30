@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -16,6 +16,7 @@ import colors from "../config/colors";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigation } from "@react-navigation/native";
+import AppText from "../components/AppText";
 import AppTextInput from "../components/AppTextInput";
 
 const validationSchema = Yup.object().shape({
@@ -33,18 +34,17 @@ function RegisterScreen() {
     // console.log("data posted", values);
     APICallHandler("users", JSON.stringify(values), "POST", JSON, null).then(
       (res) => {
-        // console.log("some", res);
-        navigation.navigate("login");
+        console.log("some", res);
+        Alert.alert(res.msg);
 
-        Alert.alert(
-          "Registered successfully! \n Check your email for account varification."
-        );
-        if (res.user === 200) {
-          console.log("in api", res);
-          // Alert(
-          //   "Registered successfully! \n Check your email for account varification."
-          // );
-        }
+        navigation.navigate("Home2");
+
+        // if (res.id == id) {
+        //   console.log("in api", res);
+        //   // Alert(
+        //   //   "Registered successfully! \n Check your email for account varification."
+        //   // );
+        // }
       }
     );
   };
@@ -69,6 +69,7 @@ function RegisterScreen() {
             contact: "",
             designation: "",
             address: "",
+            type: "donor",
           }}
           onSubmit={PostDonor}
           validationSchema={validationSchema}
@@ -158,6 +159,12 @@ function RegisterScreen() {
                 width="80%"
                 onPress={handleSubmit}
               />
+              <AppText
+                style={styles.bottomText}
+                onPress={() => navigation.navigate("Login")}
+              >
+                Already Registered? Click Here to Login!
+              </AppText>
             </>
           )}
         </Formik>
@@ -182,6 +189,13 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // justifyContent: "center",
     alignSelf: "center",
+  },
+  bottomText: {
+    alignSelf: "center",
+    color: colors.primaryV2,
+    marginTop: 15,
+    marginBottom: 15,
+    fontWeight: "bold",
   },
 });
 export default RegisterScreen;

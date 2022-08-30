@@ -39,6 +39,8 @@ const styles = StyleSheet.create({
 
   detailsContainer: {
     padding: 15,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
   },
   image: {
     width: 120,

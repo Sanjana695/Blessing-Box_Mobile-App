@@ -34,12 +34,12 @@ function DisplayNGOs() {
 
               dispatch(setNGOData(data));
 
-              navigation.navigate("NGODetails");
+              navigation.navigate("NGOs Details");
             }}
           >
             <Card
               title={ngo.ngo.name}
-              subTitle={false}
+              subTitle={ngo.ngo.year}
               image={{ uri: ngo.image }}
             />
           </TouchableOpacity>
