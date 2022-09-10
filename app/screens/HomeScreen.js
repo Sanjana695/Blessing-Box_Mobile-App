@@ -26,7 +26,7 @@ function HomeScreen({ category }) {
   useEffect(() => {
     async function getDetails() {
       try {
-        await fetch("http://192.168.10.3:8080/ngodetails", {
+        await fetch("http://10.102.144.225:8080/ngodetails", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

@@ -2,75 +2,78 @@ import React, { useState } from "react";
 import { StyleSheet, View, ScrollView, Image } from "react-native";
 import AppText from "../components/AppText";
 import Color from "../config/colors";
-import * as Progress from "react-native-progress";
-import Slider from "@react-native-community/slider";
+
 import AppButton from "../components/AppButton";
-import NumericInput from "react-native-numeric-input";
+import Divider from "react-native-divider";
+import * as Progress from "react-native-progress";
+
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 function ProjectCard() {
-  const [range, setRange] = useState("50");
+  const navigation = useNavigation();
 
   ////use Route
   const route = useRoute();
   //****get itm from NGO Projects component for project cards data*****
-  const { itm } = route.params;
+  const { itm, account_id } = route.params;
   console.log("project descriptionnn", itm.title);
+  console.log("account_id", account_id);
 
   return (
     <ScrollView>
       <View style={styles.container}>
         <AppText style={styles.heading}>{itm.title}</AppText>
+
+        {/* *******Image of project******** */}
         <Image
-          // source={{ uri: itm.imageurl }}
-          source={require("../assets/pinkRibbon.jpg")}
+          source={{ uri: itm.imageurl }}
           alt="pinkRibbon.jpg"
           style={styles.image}
         />
-        <View style={styles.progressContainer}>
-          <AppText>Target Amount:{itm.target}</AppText>
+
+        {/* ***********Target Amount of Project here************ */}
+        <View style={styles.targetAmount}>
+          <AppText style={styles.target}>Target Amount: </AppText>
+          <AppText style={styles.amount}>{itm.target}</AppText>
+        </View>
+
+        {/* **********Recieved Donation in Progress Bar***********  */}
+        <View style={styles.progress}>
+          <AppText style={styles.donation}>Donation Recieved--</AppText>
           <Progress.Bar
-            progress={0.5}
+            progress={itm.amountRecieved / 100}
             width={155}
             height={17}
             color={Color.primaryV2}
             borderWidth={1}
             borderRadius={20}
           />
-          <AppText>{"50%"}</AppText>
+          <AppText>{`${itm.amountRecieved}%`}</AppText>
         </View>
-        <AppText style={styles.description}>{itm.description}</AppText>
-        <View style={styles.sliderContainer}>
-          <Slider
-            style={styles.slider}
-            minimumValue={0}
-            maximumValue={itm.target}
-            minimumTrackTintColor={Color.primaryV2}
-            maximumTrackTintColor="#000"
-            thumbTintColor={Color.primaryV2}
-            value={typeof range === "number" ? range : 0}
-            onValueChange={(value) => setRange(parseInt(value))}
-          />
-          <NumericInput
-            // value={typeof range === "number" ? range : 0}
-            minValue={0}
-            maxValue={itm.target}
-            onChange={(value) => setRange(value)}
-            // onLimitReached={(isMax, msg) => console.log(isMax, msg)}
-            totalWidth={100}
-            totalHeight={40}
-            iconSize={25}
-            // step={1.5}
-            valueType="real"
-            rounded
-            textColor="#B0228C"
-            iconStyle={{ color: Color.primaryV2 }}
-            type="up-down"
-            upDownButtonsBackgroundColor={Color.primaryV1}
-          />
-        </View>
-        <View style={styles.button}>
-          <AppButton title="Donate" color={Color.primaryV1} />
+        <View style={styles.border}></View>
+
+        {/* ************Project Description************* */}
+        <View style={styles.subContainer}>
+          <Divider orientation="center">
+            <AppText style={styles.projectDes}>Project Description</AppText>
+          </Divider>
+          <AppText style={styles.description}>{itm.description}</AppText>
+
+          {/* ***************Donate and Back to projects Buttons********************** */}
+          <View style={styles.buttons}>
+            <AppButton
+              title="Back"
+              color={Color.primaryV1}
+              width="30%"
+              onPress={() => navigation.navigate("Projects")}
+            />
+            <AppButton
+              title="Donate"
+              color={Color.primaryV1}
+              width="30%"
+              onPress={() => navigation.navigate("Payment System")}
+            />
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -79,9 +82,19 @@ function ProjectCard() {
 export default ProjectCard;
 
 const styles = StyleSheet.create({
-  button: {
-    flexDirection: "row-reverse",
+  amount: {
+    color: Color.primaryV2,
+    fontWeight: "bold",
+  },
+  buttons: {
+    flexDirection: "row",
     padding: 5,
+    justifyContent: "space-between",
+  },
+  border: {
+    borderBottomWidth: 1,
+    marginTop: 10,
+    borderBottomColor: Color.primaryV2,
   },
   container: {
     marginTop: 10,
@@ -89,6 +102,12 @@ const styles = StyleSheet.create({
   description: {
     padding: 10,
     fontSize: 15,
+    textAlign: "justify",
+  },
+  donation: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: Color.primaryV1,
   },
   heading: {
     color: Color.primaryV1,
@@ -104,20 +123,32 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 10,
     width: 300,
-    height: 150,
+    height: 250,
   },
-  progressContainer: {
+  progress: {
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: 10,
   },
-  sliderContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
+  projectDes: {
+    color: Color.primaryV2,
+
+    fontSize: 16,
+    fontWeight: "bold",
   },
-  slider: {
-    width: 250,
-    height: 40,
-    padding: 10,
+
+  subContainer: {
+    marginTop: 10,
+  },
+
+  target: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: Color.primaryV1,
+  },
+  targetAmount: {
+    marginTop: 15,
+    flexDirection: "row",
+    marginStart: 10,
   },
 });

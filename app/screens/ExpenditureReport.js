@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Linking, Alert, StatusBar } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Linking,
+  Alert,
+  StatusBar,
+  ScrollView,
+} from "react-native";
 import AppButton from "../components/AppButton";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
@@ -32,34 +39,39 @@ function ExpenditureReport() {
   }, []);
   return (
     <View style={styles.container}>
-      {proofs.map((proof) => {
-        return (
-          // {/* *******add project data******** */}
-          <View style={styles.card} key={proof.id}>
-            <AppText style={styles.title}>{proof.title}</AppText>
+      <AppText style={styles.heading}>Expenditure Report</AppText>
+      <ScrollView>
+        {proofs.map((proof) => {
+          return (
+            // {/* *******add project data******** */}
+            <View style={styles.reportContainer} key={proof.id}>
+              <View style={styles.card}>
+                <AppText style={styles.title}>{proof.title}</AppText>
 
-            <View style={styles.amountContainer}>
-              <AppText style={styles.collectedAmount}>
-                {" "}
-                Collected Amount:
-              </AppText>
-              <AppText style={styles.amount}>{50000}</AppText>
-            </View>
+                <View style={styles.amountContainer}>
+                  <AppText style={styles.collectedAmount}>
+                    {" "}
+                    Target Amount:
+                  </AppText>
+                  <AppText style={styles.amount}>{proof.target}</AppText>
+                </View>
 
-            {/* ********View Expenditure Report**********  */}
-            <View style={styles.button}>
-              <AppButton
-                title="View"
-                color={colors.primaryV1}
-                width="30%"
-                onPress={() => {
-                  openUrl(proof.proof.document);
-                }}
-              />
+                {/* ********View Expenditure Report**********  */}
+                <View style={styles.button}>
+                  <AppButton
+                    title="View"
+                    color={colors.primaryV1}
+                    width="30%"
+                    onPress={() => {
+                      openUrl(proof.proof.document);
+                    }}
+                  />
+                </View>
+              </View>
             </View>
-          </View>
-        );
-      })}
+          );
+        })}
+      </ScrollView>
     </View>
   );
 }
@@ -78,6 +90,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 10,
+
     // paddingTop: StatusBar.currentHeight,
   },
   card: {
@@ -92,11 +105,22 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: colors.primaryV2,
   },
+  heading: {
+    color: colors.primaryV2,
+    alignSelf: "center",
+    fontWeight: "bold",
+    fontSize: 20,
+    borderBottomWidth: 2,
+    borderBottomColor: colors.primaryV1,
+  },
   title: {
     alignSelf: "center",
     marginTop: 10,
     color: colors.primaryV2,
     fontSize: 20,
     fontWeight: "bold",
+  },
+  reportContainer: {
+    padding: 9,
   },
 });

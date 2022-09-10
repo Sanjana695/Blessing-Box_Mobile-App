@@ -1,1 +1,0 @@
-export const SET_PROJECT_INFO = "SET_PROJECT_INFO";

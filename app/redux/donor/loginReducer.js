@@ -1,4 +1,4 @@
-export const initialState = false;
+export const initialState = true;
 
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {

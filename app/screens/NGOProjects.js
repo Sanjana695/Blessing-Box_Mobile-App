@@ -39,7 +39,7 @@ function NGOProjects() {
 
   //display ngo project detail
   const ngos = detailsReducer[serviceType].filter(
-    (ngo) => ngo.id == ngoDetailReducer.ngoData.id
+    (ngo) => ngo.ngo.id == ngoDetailReducer.ngoData.id
   );
   console.log("NGOS PROJECTS:", ngos[0].projects);
 
@@ -73,15 +73,20 @@ function NGOProjects() {
           return (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("Project Description", { itm })
+                navigation.navigate("Project Description", {
+                  itm,
+                  account_id: ngos[0].account_id,
+                })
               }
               key={itm.id}
             >
               <ProjectCard
                 title={itm.title}
                 targetAmount={itm.target}
-                percent={0.5}
-                collected={"50%"}
+                // account_id="acct_1LRtpvBT2aR8PHTn"
+                account_id={ngos[0].account_id}
+                percent={itm.amountRecieved / 100}
+                collected={`${itm.amountRecieved}%`}
               />
             </TouchableOpacity>
           );

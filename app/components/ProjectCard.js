@@ -1,41 +1,44 @@
 import React from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View } from "react-native";
 import AppText from "./AppText";
 import colors from "../config/colors";
 import * as Progress from "react-native-progress";
 
-import AppButton from "./AppButton";
-
-function ProjectCard({ title, targetAmount, percent, collected }) {
+function ProjectCard({
+  title,
+  targetAmount,
+  percent,
+  collected,
+  account_id = "acct_1LRtpvBT2aR8PHTn",
+}) {
   return (
     <View style={styles.cardContainer}>
       <View style={styles.card}>
-        <View style={styles.detailsContainer}>
-          <AppText style={styles.projectName} numberOfLines={1}>
-            {title}
-          </AppText>
+        <AppText style={styles.projectName} numberOfLines={1}>
+          {title}
+        </AppText>
 
-          <View style={styles.targetProgress}>
-            <AppText style={styles.targetAmount} numberOfLines={2}>
-              Target Amount: {targetAmount}
-            </AppText>
+        {/* ********Show target amount of particular project********** */}
+        <AppText style={styles.targetAmount} numberOfLines={2}>
+          Target Amount: {targetAmount}
+        </AppText>
 
-            <View style={styles.subContainer}>
-              <Progress.Bar
-                progress={percent}
-                width={100}
-                height={19}
-                color={colors.primaryV2}
-                borderWidth={1}
-                borderRadius={20}
-              />
-              <AppText style={styles.status}>{collected}</AppText>
-            </View>
-          </View>
-          <View style={styles.button}>
-            <AppButton title="Donate" color={colors.primaryV2} width="50%" />
+        {/* **********Show Donation Recieved in progress Bar********** */}
+        <View style={styles.progressContainer}>
+          <AppText style={styles.donation}>Donation Recieved: </AppText>
+          <View style={styles.subContainer}>
+            <Progress.Bar
+              progress={percent}
+              width={150}
+              height={19}
+              color={colors.primaryV2}
+              borderWidth={1}
+              borderRadius={20}
+            />
+            <AppText style={styles.status}>{collected}</AppText>
           </View>
         </View>
+        <AppText style={styles.donationText}>Click Here For Donation..</AppText>
       </View>
     </View>
   );
@@ -44,54 +47,54 @@ export default ProjectCard;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    // flexDirection: "row",
-    padding: 10,
+    padding: 9,
   },
   card: {
     borderRadius: 25,
     backgroundColor: colors.primaryV1,
-    // overflow: "hidden",
-    // height: "75%",
+    padding: 9,
     width: "100%",
-    // marginBottom: 4,
-    // justifyContent: "space-between",
   },
 
-  detailsContainer: {
-    padding: 7,
-  },
-  targetAmount: {
+  donation: {
     color: colors.white,
-    // backgroundColor:colors.primaryV2,
-    // height:30,
-    // textAlign:"center",
-    // borderRadius: 20,
     fontSize: 15,
     fontWeight: "bold",
+  },
+  donationText: {
+    color: colors.primaryV2,
+    marginTop: 5,
+    fontSize: 15,
+
+    alignSelf: "center",
   },
   projectName: {
     color: colors.primaryV2,
     fontWeight: "bold",
     fontSize: 22,
     alignSelf: "center",
-    // marginBottom: 7,
+    marginBottom: 5,
   },
-
+  progressContainer: {
+    marginTop: 5,
+    flexDirection: "row",
+  },
   subContainer: {
     flexDirection: "row",
-    // marginTop: 10,
-    justifyContent: "space-around",
   },
   status: {
     color: colors.white,
     left: 5,
   },
+  targetAmount: {
+    color: colors.white,
+    fontSize: 15,
+    fontWeight: "bold",
+  },
+
   targetProgress: {
     flexDirection: "row",
     marginTop: 10,
     justifyContent: "space-around",
-  },
-  button: {
-    flexDirection: "row-reverse",
   },
 });

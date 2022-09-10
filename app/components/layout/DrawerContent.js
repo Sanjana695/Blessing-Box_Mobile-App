@@ -12,11 +12,73 @@ function DrawerContent(props) {
   const [nestedDrawerItem, setNestedDrawerItem] = useState(false);
   const dispatch = useDispatch();
   const myState = useSelector((state) => state.loginReducer);
+  console.log("myStateeee", myState);
   const NestedDrawerItem = () => {
     if (nestedDrawerItem == true) {
       setNestedDrawerItem(false);
     } else {
       setNestedDrawerItem(true);
+    }
+  };
+
+  const RenderMenu = () => {
+    if (myState) {
+      return (
+        <>
+          <Drawer.Section>
+            <DrawerItem
+              label={() => <Text style={styles.drawerItem}>Sign Out</Text>}
+              onPress={() => {
+                dispatch(isLogout());
+                props.navigation.navigate("Sign Out");
+              }}
+              icon={() => (
+                <MaterialCommunityIcons
+                  name="logout"
+                  size={20}
+                  color={Color.primaryV2}
+                />
+              )}
+            />
+          </Drawer.Section>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Drawer.Section>
+            <DrawerItem
+              label={() => <Text style={styles.drawerItem}>Sign up</Text>}
+              onPress={() => {
+                props.navigation.navigate("Sign up");
+              }}
+              icon={() => (
+                <MaterialCommunityIcons
+                  name="account-plus"
+                  size={20}
+                  color={Color.primaryV2}
+                />
+              )}
+            />
+          </Drawer.Section>
+          <Drawer.Section>
+            <DrawerItem
+              label={() => <Text style={styles.drawerItem}>Login</Text>}
+              onPress={() => {
+                // dispatch(isLogout());
+                props.navigation.navigate("Login");
+              }}
+              icon={() => (
+                <MaterialCommunityIcons
+                  name="login"
+                  size={20}
+                  color={Color.primaryV2}
+                />
+              )}
+            />
+          </Drawer.Section>
+        </>
+      );
     }
   };
   return (
@@ -154,57 +216,9 @@ function DrawerContent(props) {
               )}
             />
           </Drawer.Section>
-
-          <Drawer.Section>
-            <DrawerItem
-              label={() => <Text style={styles.drawerItem}>Sign up</Text>}
-              onPress={() => {
-                props.navigation.navigate("Sign up");
-              }}
-              icon={() => (
-                <MaterialCommunityIcons
-                  name="account-plus"
-                  size={20}
-                  color={Color.primaryV2}
-                />
-              )}
-            />
-          </Drawer.Section>
-          <Drawer.Section>
-            <DrawerItem
-              label={() => <Text style={styles.drawerItem}>Login</Text>}
-              onPress={() => {
-                props.navigation.navigate("Login");
-                dispatch(isLogout());
-              }}
-              icon={() => (
-                <MaterialCommunityIcons
-                  name="login"
-                  size={20}
-                  color={Color.primaryV2}
-                />
-              )}
-            />
-          </Drawer.Section>
+          <RenderMenu />
         </View>
       </DrawerContentScrollView>
-
-      <Drawer.Section>
-        <DrawerItem
-          label={() => <Text style={styles.drawerItem}>Sign Out</Text>}
-          onPress={() => {
-            props.navigation.navigate("Sign Out");
-            dispatch(isLogout());
-          }}
-          icon={() => (
-            <MaterialCommunityIcons
-              name="logout"
-              size={20}
-              color={Color.primaryV2}
-            />
-          )}
-        />
-      </Drawer.Section>
     </View>
   );
 }
