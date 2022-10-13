@@ -14,8 +14,13 @@ import NumericInput from "react-native-numeric-input";
 import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
 import colors from "../config/colors";
 import AppButton from "../components/AppButton";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 function PaymentSystem() {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const { itm } = route.params;
+
   const [range, setRange] = useState("50");
 
   const [email, setEmail] = useState();
@@ -23,25 +28,33 @@ function PaymentSystem() {
   const { confirmPayment, loading } = useConfirmPayment();
 
   const fetchPaymentIntentClientSecret = async () => {
-    const response = await fetch("create-payment-intent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
+    const response = await fetch(
+      "http://10.102.144.207:8080/create-payment-intent",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          donation: range,
+        }),
+      }
+    );
+    // console.log("payment sytem", response.amount);
     const { clientSecret, error } = await response.json();
-    console.log("payment sytem", response);
+    // console.log("payment sytem", range);
 
     return { clientSecret, error };
   };
   const handlePayPress = async () => {
     //1. Gather the donor billing information
-    if (!cardDetails?.complete || !email) {
+    if (!cardDetails?.complete || !email || !range) {
       Alert.alert("Please Enter Complete Card Details and Email!");
+      // console.log("RANGE", range);
       return;
     }
     const billingDeatils = { email: email };
+    // console.log(email, "email");
     //2. fetch the intent client secret from the backend
     try {
       const { clientSecret, error } = await fetchPaymentIntentClientSecret();
@@ -55,10 +68,14 @@ function PaymentSystem() {
           billingDetails: billingDeatils,
         });
         if (error) {
-          Alert.alert(`Paymnet Cofirmation Error ${error.message}`);
+          Alert.alert(`Payment Cofirmation Error ${error.message}`);
         } else if (paymentIntent) {
           Alert.alert("Payment Successfully!");
           console.log("payment successfully", paymentIntent);
+          navigation.navigate("Confirmation Message", {
+            id: itm.id,
+            donation: range,
+          });
         }
       }
     } catch (e) {
@@ -87,7 +104,7 @@ function PaymentSystem() {
       />
       {/* **************Enter Donation Amount Here***************** */}
       <View style={styles.sliderContainer}>
-        <Slider
+        {/* <Slider
           style={styles.slider}
           minimumValue={0}
           maximumValue={50000}
@@ -96,12 +113,12 @@ function PaymentSystem() {
           thumbTintColor={colors.primaryV2}
           value={typeof range === "number" ? range : 0}
           onValueChange={(value) => setRange(parseInt(value))}
-        />
+        /> */}
         <NumericInput
           // value={typeof range === "number" ? range : 0}
           minValue={0}
           maxValue={50000}
-          onChange={(value) => setRange(value)}
+          onChange={(value) => setRange(parseInt(value))}
           // onLimitReached={(isMax, msg) => console.log(isMax, msg)}
           totalWidth={100}
           totalHeight={40}
@@ -114,13 +131,35 @@ function PaymentSystem() {
           type="up-down"
           upDownButtonsBackgroundColor={colors.primaryV1}
         />
+
+        {/* <TextInput
+          autoCapitalize="none"
+          autoCorrect={false}
+          keyboradType="default"
+          onChangeText={() => setRange(range)}
+          textContentType="default"
+          // icon="email"
+          placeholder="amount"
+          style={styles.input}
+        /> */}
       </View>
-      <AppButton
-        title="Pay"
-        disabled={loading}
-        onPress={handlePayPress}
-        color={colors.primaryV1}
-      />
+
+      {/* *******back and donate buttons******* */}
+      <View style={styles.buttons}>
+        <AppButton
+          title="Back"
+          color={colors.primaryV1}
+          width="30%"
+          onPress={() => navigation.navigate("Project Description")}
+        />
+        <AppButton
+          title="Pay"
+          disabled={loading}
+          width="30%"
+          onPress={handlePayPress}
+          color={colors.primaryV1}
+        />
+      </View>
     </View>
   );
 }
@@ -140,6 +179,11 @@ const styles = StyleSheet.create({
 
     height: 50,
     marginVertical: 30,
+  },
+  buttons: {
+    flexDirection: "row",
+    padding: 5,
+    justifyContent: "space-between",
   },
   input: {
     backgroundColor: colors.white,

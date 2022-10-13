@@ -19,22 +19,24 @@ function StackNavigation() {
 
   return (
     <Provider store={store}>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="Home" component={DrawerNavigation} />
-        <Stack.Screen name="sign-in" component={RegisterScreen} />
-        <Stack.Screen name="login" component={LoginScreen} />
-        <Stack.Screen name="DisplayNGOs" component={DisplayNGOs} />
-        <Stack.Screen name="NGODetails" component={TabNavigator} />
-        <Stack.Screen name="NGOProjects" component={NGOProjects} />
-        <Stack.Screen name="ContactUs" component={ContactUs} />
+      <StripeProvider publishableKey="pk_test_51LWfS4FvT289HIDPDiBH6hB8wWkpM99z6HszmKD3boMygwRCrWlJUFmgiCWQSpdOlXcNL14FRXeZiAxXukXlYGAH00A1hk3MHY">
+        <Stack.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Home" component={DrawerNavigation} />
+          <Stack.Screen name="sign-in" component={RegisterScreen} />
+          <Stack.Screen name="login" component={LoginScreen} />
+          <Stack.Screen name="DisplayNGOs" component={DisplayNGOs} />
+          <Stack.Screen name="NGODetails" component={TabNavigator} />
+          <Stack.Screen name="NGOProjects" component={NGOProjects} />
+          <Stack.Screen name="ContactUs" component={ContactUs} />
 
-        <Stack.Screen name="PaymentSystem" component={PaymentSystem} />
-      </Stack.Navigator>
+          <Stack.Screen name="PaymentSystem" component={PaymentSystem} />
+        </Stack.Navigator>
+      </StripeProvider>
     </Provider>
   );
 }

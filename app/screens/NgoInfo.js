@@ -9,11 +9,11 @@ function NgoInfo() {
   const reduxData = useSelector((state) => state);
 
   const { ngoDetailReducer, detailsReducer } = reduxData;
-  console.log(ngoDetailReducer);
-  console.log(detailsReducer);
+  // console.log(ngoDetailReducer);
+  // console.log(detailsReducer);
 
   const serviceType = ngoDetailReducer.ngoData.serviceType.toLowerCase();
-  console.log(serviceType);
+  // console.log(serviceType);
 
   const ngos = detailsReducer[serviceType].filter(
     (ngo) => ngo.ngo.id == ngoDetailReducer.ngoData.id

@@ -16,10 +16,10 @@ const validationSchema = Yup.object().shape({
 
 function ContactUs() {
   const postQuery = (values) => {
-    console.log(values);
+    // console.log(values);
     APICallHandler("contact", JSON.stringify(values), "POST", null, null)
       .then((res) => {
-        console.log("res of contact is", res);
+        // console.log("res of contact is", res);
       })
       .catch((err) => {
         console.log(err.message);

@@ -16,8 +16,9 @@ function ProjectCard() {
   const route = useRoute();
   //****get itm from NGO Projects component for project cards data*****
   const { itm, account_id } = route.params;
-  console.log("project descriptionnn", itm.title);
-  console.log("account_id", account_id);
+  // console.log("project descriptionnn", itm.title);
+  // console.log("account_id", account_id);
+  console.log(itm.id, "PROJECT ID");
 
   return (
     <ScrollView>
@@ -71,7 +72,7 @@ function ProjectCard() {
               title="Donate"
               color={Color.primaryV1}
               width="30%"
-              onPress={() => navigation.navigate("Payment System")}
+              onPress={() => navigation.navigate("Payment System", { itm })}
             />
           </View>
         </View>

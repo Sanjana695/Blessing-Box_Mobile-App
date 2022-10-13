@@ -35,22 +35,24 @@ function NGOProjects() {
 
   ///service type should be in lower case
   const serviceType = ngoDetailReducer.ngoData.serviceType.toLowerCase();
-  console.log(serviceType);
+  // console.log(serviceType);
 
   //display ngo project detail
   const ngos = detailsReducer[serviceType].filter(
     (ngo) => ngo.ngo.id == ngoDetailReducer.ngoData.id
   );
-  console.log("NGOS PROJECTS:", ngos[0].projects);
+  // console.log("NGOS PROJECTS:", ngos[0].projects);
 
   // *************display project card for donor in useEffect*************
   useEffect(() => {
     apiRequest(`ngo/${ngos[0].id}`, null, "GET", null, null)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.success) {
           if (res.projects) {
             // console.log("projcsss", res.projects);
+            // console.log(projects.id, "projectss id");
+
             setProjects(() => res.projects);
           }
         }

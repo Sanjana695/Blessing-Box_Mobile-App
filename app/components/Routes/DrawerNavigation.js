@@ -12,6 +12,7 @@ import NgoDetails from "../../screens/NgoDetails";
 import TabNavigator from "../layout/TabNavigator";
 import ProjectDesc from "../../screens/ProjectDesc";
 import PaymentSystem from "../../screens/PaymentSystem";
+import ConfirmationPayment from "../../screens/ConfirmationPayment";
 import { StripeProvider } from "@stripe/stripe-react-native";
 
 function DrawerNavigation() {
@@ -90,6 +91,21 @@ function DrawerNavigation() {
             <Drawer.Screen
               name="Payment System"
               component={PaymentSystem}
+              options={{
+                title: "Blessing Box",
+                headerStyle: {
+                  backgroundColor: colors.primarytrans,
+                },
+                headerTintColor: colors.white,
+                headerTitleAlign: "center",
+              }}
+            />
+          }
+
+          {
+            <Drawer.Screen
+              name="Confirmation Message"
+              component={ConfirmationPayment}
               options={{
                 title: "Blessing Box",
                 headerStyle: {

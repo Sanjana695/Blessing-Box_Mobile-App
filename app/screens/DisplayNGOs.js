@@ -20,7 +20,7 @@ function DisplayNGOs() {
   const dispatch = useDispatch();
 
   const { category } = route.params;
-  console.log("INNNN category", category);
+  // console.log("INNNN category", category);
 
   const ngos = useSelector((state) => state.detailsReducer[category]);
   // console.log("In details ", ngos);

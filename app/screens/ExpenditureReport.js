@@ -31,7 +31,7 @@ function ExpenditureReport() {
       // console.log("Expenditure Details: ", res);
       if (res.success) {
         if (res.projects) {
-          console.log("proof projects", res.projects);
+          // console.log("proof projects", res.projects);
           setProof(() => res.projects);
         }
       }

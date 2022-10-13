@@ -30,10 +30,10 @@ function LoginScreen() {
 
         if (res.email == email) {
           const token = AsyncStorage.setItem("token", res.token);
-          console.log("token", token);
+          // console.log("token", token);
           //dispatch state whether user is logged in or not
           dispatch(isLogin());
-          console.log("is login", isLogin());
+          // console.log("is login", isLogin());
 
           //store user details into redux
           dispatch(setUserInfo(res.user));
