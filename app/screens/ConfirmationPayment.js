@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, View, Image } from "react-native";
 import AppText from "../components/AppText";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import APICallHandler from "../components/APICallHandler";
 
 function ConfirmationPayment() {
@@ -41,6 +41,12 @@ function ConfirmationPayment() {
 
   return (
     <View style={styles.container}>
+      <Image
+        style={styles.image}
+        source={require("../assets/logo.png")}
+        resizeMode="cover"
+      />
+
       <AppText style={styles.text_container}>
         Congratulations! You earned 100's of Blessings just in {donation}
         Rupees!
@@ -59,5 +65,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     margin: 5,
+  },
+  image: {
+    width: 300,
+    height: 350,
+    alignSelf: "center",
   },
 });

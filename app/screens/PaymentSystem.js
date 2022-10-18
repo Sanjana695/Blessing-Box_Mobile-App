@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Divider from "react-native-divider";
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  Alert,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { StyleSheet, View, Alert, TextInput } from "react-native";
 import Slider from "@react-native-community/slider";
 import NumericInput from "react-native-numeric-input";
 
@@ -15,6 +8,7 @@ import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
 import colors from "../config/colors";
 import AppButton from "../components/AppButton";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import AppText from "../components/AppText";
 
 function PaymentSystem() {
   const navigation = useNavigation();
@@ -29,7 +23,7 @@ function PaymentSystem() {
 
   const fetchPaymentIntentClientSecret = async () => {
     const response = await fetch(
-      "http://10.102.144.207:8080/create-payment-intent",
+      "http://10.102.128.25:8080/create-payment-intent",
       {
         method: "POST",
         headers: {
@@ -85,6 +79,7 @@ function PaymentSystem() {
 
   return (
     <View style={styles.container}>
+      <AppText style={styles.accountDetails}>Account Details</AppText>
       <TextInput
         autoCapitalize="none"
         autoCorrect={false}
@@ -150,7 +145,7 @@ function PaymentSystem() {
           title="Back"
           color={colors.primaryV1}
           width="30%"
-          onPress={() => navigation.navigate("Project Description")}
+          onPress={() => navigation.navigate("Project Description", { itm })}
         />
         <AppButton
           title="Pay"
@@ -200,5 +195,14 @@ const styles = StyleSheet.create({
     width: 250,
     height: 40,
     padding: 10,
+  },
+  accountDetails: {
+    fontWeight: "bold",
+    color: colors.primaryV1,
+    marginBottom: 15,
+    fontSize: 20,
+    alignSelf: "center",
+    borderBottomWidth: 2,
+    borderBottomColor: colors.primaryV2,
   },
 });

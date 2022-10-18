@@ -26,7 +26,7 @@ function HomeScreen({ category }) {
   useEffect(() => {
     async function getDetails() {
       try {
-        await fetch("http://10.102.144.207:8080/ngodetails", {
+        await fetch("http://10.102.128.25:8080/ngodetails", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -86,7 +86,7 @@ function HomeScreen({ category }) {
         >
           <Card
             title="Orphanage"
-            subTitle="1000 Rupees Donated"
+            subTitle={false}
             image={require("../assets/orphanage1.png")}
           />
         </TouchableOpacity>
@@ -98,7 +98,7 @@ function HomeScreen({ category }) {
         >
           <Card
             title="Food"
-            subTitle="1000 Rupees Donated"
+            subTitle={false}
             image={require("../assets/food1.png")}
             flexDirection="row-reverse"
           />
@@ -111,7 +111,7 @@ function HomeScreen({ category }) {
         >
           <Card
             title="Education"
-            subTitle="1000 Rupees Donated"
+            subTitle={false}
             image={require("../assets/education1.png")}
           />
         </TouchableOpacity>

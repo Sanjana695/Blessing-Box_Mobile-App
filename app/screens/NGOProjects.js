@@ -72,7 +72,7 @@ function NGOProjects() {
 
         {/* ************SHOW PROJECTS CARDS***************** */}
         {projects.map((itm) => {
-          return (
+          return itm.amountRecieved < 100 ? (
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate("Project Description", {
@@ -91,7 +91,7 @@ function NGOProjects() {
                 collected={`${itm.amountRecieved}%`}
               />
             </TouchableOpacity>
-          );
+          ) : null;
         })}
       </View>
     </ScrollView>
